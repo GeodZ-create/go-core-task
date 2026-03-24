@@ -14,12 +14,12 @@ func joinChannels(chans ...<-chan int) <-chan int {
 		wg.Add(len(chans))
 
 		for _, ch := range chans {
-			go func(ch <-chan int, wg *sync.WaitGroup) {
+			go func(ch <-chan int) {
 				defer wg.Done()
 				for val := range ch {
 					mergedCh <- val
 				}
-			}(ch, wg)
+			}(ch)
 
 		}
 		wg.Wait()
