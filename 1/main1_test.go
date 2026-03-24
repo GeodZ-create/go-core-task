@@ -1,4 +1,4 @@
-package main_1
+package main
 
 import (
 	"reflect"
@@ -6,12 +6,11 @@ import (
 )
 
 func TestGetType(t *testing.T) {
-	got := getType(1)
+	got := getType(42, 3.14, "Go", true)
+	want := []string{"int", "float64", "string", "bool"}
 
-	want := "int"
-
-	if got != want {
-		t.Errorf("getType() = %q, want %q", got, want)
+	if !reflect.DeepEqual(got, want) {
+		t.Fatalf("testGetType() = %v, want %v", got, want)
 	}
 }
 

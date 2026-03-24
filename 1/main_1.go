@@ -1,4 +1,4 @@
-package main_1
+package main
 
 import (
 	"crypto/sha256"
@@ -7,17 +7,15 @@ import (
 )
 
 func main() {
-	var a int = 1
-	var b float64 = 1.0
-	var c string = "Golang"
-	var d bool = true
-	var e complex64 = 0 + 0i
-	getType(a)
-	getType(b)
-	getType(c)
-	getType(d)
-	getType(e)
-	fullString := valueToString(a, b, c, d, e)
+	var numDecimal int = 42           // Десятичная система
+	var numOctal int = 052            // Восьмеричная система
+	var numHexadecimal int = 0x2A     // Шестнадцатиричная система
+	var pi float64 = 3.14             // Тип float64
+	var name string = "Golang"        // Тип string
+	var isActive bool = true          // Тип bool
+	var complexNum complex64 = 1 + 2i // Тип complex64
+	getType(numDecimal, numOctal, numHexadecimal, pi, name, isActive, complexNum)
+	fullString := valueToString(numDecimal, numOctal, numHexadecimal, pi, name, isActive, complexNum)
 	fmt.Println(fullString)
 	fullStringRune := stringToRune(fullString)
 	fmt.Println(string(putSalt(fullStringRune)))
@@ -27,19 +25,22 @@ func main() {
 	fmt.Println(fullStringHash)
 }
 
-func getType(value any) string {
-	result := fmt.Sprintf("%T", value)
-	fmt.Println(result)
+func getType(value ...any) []string {
+	var result []string
+	for _, v := range value {
+		result = append(result, fmt.Sprintf("%T", v))
+	}
+	for _, t := range result {
+		fmt.Println(t)
+	}
 	return result
 }
 
-func valueToString(a int, b float64, c string, d bool, e complex64) string {
-	aString := fmt.Sprint(a)
-	bString := fmt.Sprint(b)
-	cString := fmt.Sprint(c)
-	dString := fmt.Sprint(d)
-	eString := fmt.Sprint(e)
-	fullString := aString + bString + cString + dString + eString
+func valueToString(value ...any) string {
+	var fullString string
+	for _, v := range value {
+		fullString += fmt.Sprint(v)
+	}
 	return fullString
 }
 
