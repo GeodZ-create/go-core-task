@@ -5,91 +5,38 @@ import (
 	"testing"
 )
 
-func TestAdd(t *testing.T) {
-	s := StringIntMap{}
-	s.Add("odin", 1)
+func TestNewSlice_BasicCase(t *testing.T) {
+	slice1 := []string{"apple", "banana", "cherry", "date", "43", "lead", "gno1"}
+	slice2 := []string{"banana", "date", "fig"}
+	result := NewSlice(slice1, slice2)
 
-	want := map[string]int{
-		"odin": 1,
-	}
+	want := []string{"apple", "cherry", "43", "lead", "gno1"}
 
-	if !reflect.DeepEqual(s.data, want) {
-		t.Errorf("Add() = %v, want %v", s.data, want)
-	}
-
-}
-
-func TestRemove(t *testing.T) {
-	s := StringIntMap{}
-	s.data = map[string]int{
-		"odin": 1,
-		"dva":  2,
-		"tri":  3,
-	}
-	s.Remove("dva")
-
-	want := map[string]int{
-		"odin": 1,
-		"tri":  3,
-	}
-	if !reflect.DeepEqual(s.data, want) {
-		t.Errorf("Remove() = %v, want %v", s.data, want)
-	}
-
-}
-
-func TestCopy(t *testing.T) {
-	s := StringIntMap{}
-	s.data = map[string]int{
-		"odin": 1,
-		"dva":  2,
-		"tri":  3,
-	}
-	copiedMap := s.Copy()
-
-	if !reflect.DeepEqual(s.data, copiedMap) {
-		t.Errorf("Copy() = %v, want %v", s.data, copiedMap)
+	if !reflect.DeepEqual(result, want) {
+		t.Errorf("NewSlice() = %v, want %v", result, want)
 	}
 }
 
-func TestExists(t *testing.T) {
-	s := StringIntMap{}
-	s.data = map[string]int{
-		"odin": 1,
-		"dva":  2,
-		"tri":  3,
-	}
-	exist := s.Exists("dva")
+func TestNewSlice_NoMatches(t *testing.T) {
+	slice1 := []string{"a", "b", "c"}
+	slice2 := []string{"x", "y"}
+	result := NewSlice(slice1, slice2)
 
-	if !exist {
-		t.Errorf("Exists() = %v, want %v", s.data, exist)
+	want := []string{"a", "b", "c"}
+
+	if !reflect.DeepEqual(result, want) {
+		t.Errorf("NewSlice() = %v, want %v", result, want)
 	}
 }
 
-func TestGet(t *testing.T) {
-	s := StringIntMap{}
-	s.data = map[string]int{
-		"odin": 1,
-		"dva":  2,
-		"tri":  3,
-	}
-	get, ok := s.Get("dva")
+func TestNewSlice_AllElementsExcluded(t *testing.T) {
+	slice1 := []string{"a", "b"}
+	slice2 := []string{"a", "b", "c"}
+	result := NewSlice(slice1, slice2)
 
-	if get != 2 || ok != true {
-		t.Errorf("Get() = %v, ok %v", get, ok)
-	}
-}
+	want := []string{}
 
-func TestGetInvalid(t *testing.T) {
-	s := StringIntMap{}
-	s.data = map[string]int{
-		"odin": 1,
-		"dva":  2,
-		"tri":  3,
-	}
-	get, ok := s.Get("chetire")
-
-	if get != 0 || ok != false {
-		t.Errorf("Get() = %v, ok %v", get, ok)
+	if !reflect.DeepEqual(result, want) {
+		t.Errorf("NewSlice() = %v, want %v", result, want)
 	}
 }

@@ -1,40 +1,22 @@
 package main
 
-import "maps"
-
 func main() {
-
 }
 
-type StringIntMap struct {
-	data map[string]int
-}
+func NewSlice(first []string, second []string) []string {
+	result := make([]string, 0)
+	sliceTwoMap := make(map[string]bool)
 
-func (s *StringIntMap) Add(key string, value int) {
-	if s.data == nil {
-		s.data = make(map[string]int)
+	for _, v := range second {
+		sliceTwoMap[v] = true
 	}
-	s.data[key] = value
-}
 
-func (s *StringIntMap) Remove(key string) {
-	delete(s.data, key)
-}
+	for _, v := range first {
+		_, ok := sliceTwoMap[v]
+		if !ok {
+			result = append(result, v)
+		}
+	}
 
-func (s *StringIntMap) Copy() map[string]int {
-	newMap := make(map[string]int)
-	maps.Copy(newMap, s.data)
-	return newMap
-
-}
-
-func (s *StringIntMap) Exists(key string) bool {
-	_, ok := s.data[key]
-	return ok
-
-}
-
-func (s *StringIntMap) Get(key string) (int, bool) {
-	v, ok := s.data[key]
-	return v, ok
+	return result
 }
